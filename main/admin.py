@@ -1,9 +1,8 @@
 from django.contrib import admin
 
-from .models import Script, Client, LowLevelDesign, RadioSite, Router, PhysicalInterface, Interface2G, Interface3G, Interface4G, ManagementInterface
+from .models import Script, LowLevelDesign, RadioSite, Router, PhysicalInterface, Interface2G, Interface3G, Interface4G, ManagementInterface
 
 admin.site.register(Script)
-admin.site.register(Client)
 admin.site.register(LowLevelDesign)
 admin.site.register(RadioSite)
 admin.site.register(Router)

@@ -1,0 +1,70 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Create-Router {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Add a Router</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Router Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Router Details</h4>
+            </div>
+            <div class="card-body">
+                {{ router_form|crispy }}
+            </div>
+        </div>
+        
+        <!-- Physical Interface Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Physical Interface</h4>
+            </div>
+            <div class="card-body">
+                {{ physical_interface_formset.management_form }}
+                {{ physical_interface_formset|crispy }}
+            </div>
+        </div>
+        
+        <!-- Logical Interface Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Logical Interfaces</h4>
+            </div>
+            <div class="card-body">
+                <h5>2G Interface</h5>
+                {{ interface2g_formset.management_form|crispy }}
+                {{ interface2g_formset|crispy }}
+                
+                <hr>
+                
+                <h5>3G Interface</h5>
+                {{ interface3g_formset.management_form|crispy }}
+                {{ interface3g_formset|crispy }}
+                
+                <hr>
+                
+                <h5>4G Interface</h5>
+                {{ interface4g_formset.management_form|crispy }}
+                {{ interface4g_formset|crispy }}
+                
+                <hr>
+                
+                <h5>Management Interface</h5>
+                {{ management_interface_formset.management_form|crispy }}
+                {{ management_interface_formset|crispy }}
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

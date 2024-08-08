@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Create-RadioSite {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Add a Radio Site</h2>
+    
+    <form method="post">
+        {% csrf_token %}  
+
+        <!-- Radio Site Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Radio Site Details</h4>
+            </div>
+            <div class="card-body">
+                {{ radio_site_form|crispy }}  
+            </div>
+        </div>
+  
+        <!-- Submit Button -->
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+
+{% block title %} Result {% endblock %}
+
+{% block content %}
+
+
+<h1>Generated Script</h1>
+<pre>{{ script_content }}</pre>
+<a href="{% url 'create_router' %}">Create Another Router</a>
+
+
+
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Create-LLD {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Add a Low Level Design</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- LLD Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Low-Level Design (LLD) Details</h4>
+            </div>
+            <div class="card-body">
+                {{ low_level_design_form|crispy }}
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -3,7 +3,7 @@ from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
-from .models import Router, PhysicalInterface, Interface2G, Interface3G, Interface4G, ManagementInterface, Script, LowLevelDesign,RadioSite
+from .models import Router, PhysicalInterface, Interface2G, Interface3G, Interface4G, ManagementInterface, Script, LowLevelDesign, LowLevelDesign_Co_trans,RadioSite
 from .forms import (
     LowLevelDesignForm,
     RouterForm,
@@ -183,6 +183,13 @@ INTERFACE_4G_COLUMNS = {
     '4G UP&CP IP': 3,
 }
 
+LLD_CO_TRANS_COLUMNS = {
+    'NE40/NE8000': 0,
+    'site ': 1,
+    'Config O&M': 2,
+    'Config TDD': 3,
+}
+
 def upload_lld(request):
     if request.method == 'POST':
         form = LowLevelDesignForm(request.POST, request.FILES)
@@ -288,6 +295,50 @@ def upload_lld(request):
                 error_message = f"An error occurred while processing the file: {str(e)}"
                 return render(request, 'main/uploadLLD.html', {'form': form, 'error': error_message})
 
+
+    else:
+        form = LowLevelDesignForm()
+
+    return render(request, 'main/uploadLLD.html', {'form': form})
+
+
+
+def upload_lld_Co_Trans(request):
+    if request.method == 'POST':
+        form = LowLevelDesignForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                excel_file = request.FILES['file']
+                lld_data_df = pd.read_excel(excel_file, sheet_name=0)  
+                print(lld_data_df)
+                # Create LowLevelDesign instance
+                lld = LowLevelDesign_Co_trans.objects.create(file=excel_file)  
+
+
+                # Process the first row of the DataFrame (assuming it contains the data)
+                for _, row in lld_data_df[1:].iterrows():
+                    router_name = row[0]
+                    site_name = row[1]
+                    o_and_m_ip = row[2]  
+                    tdd_ip = row[3] 
+
+                    print(f" ******************************** {router_name} / {site_name} :{o_and_m_ip} + {tdd_ip}")
+
+
+                    if router_name and site_name:
+                        router, created = Router.objects.get_or_create(name=router_name, lld=lld)
+                        radio_site, created = RadioSite.objects.get_or_create(name=site_name, lld=lld)
+                        lld.o_and_m = o_and_m_ip
+                        lld.TDD = tdd_ip
+                        lld.save()
+
+                # Generate the script
+                script = lld.generateScript(site_name)
+                return render(request, 'main/result.html', {'script_content': script.content})
+
+            except Exception as e:
+                error_message = f"An error occurred while processing the file: {str(e)}"
+                return render(request, 'main/uploadLLD.html', {'form': form, 'error': error_message})
 
     else:
         form = LowLevelDesignForm()

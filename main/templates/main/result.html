@@ -4,11 +4,13 @@
 
 {% block content %}
 
-
 <h1>Generated Script</h1>
 <pre>{{ script_content }}</pre>
-<a href="{% url 'create_router' %}">Create Another Router</a>
 
-
+<form action="{% url 'download_script' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="script_content" value="{{ script_content|escape }}">
+    <button type="submit" class="btn btn-primary">Download Script</button>
+</form>
 
 {% endblock content %}

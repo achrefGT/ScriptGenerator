@@ -9,7 +9,7 @@ from crispy_forms.layout import Layout, Field, Fieldset, ButtonHolder, Submit
 class LowLevelDesignForm(forms.ModelForm):
     class Meta:
         model = LowLevelDesign
-        fields = ['client']  
+        fields = ['file']  
 
     def __init__(self, *args, **kwargs):
         super(LowLevelDesignForm, self).__init__(*args, **kwargs)
@@ -17,7 +17,7 @@ class LowLevelDesignForm(forms.ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 'Low-Level Design Details',
-                'client',
+                'file'
             )
         )
 

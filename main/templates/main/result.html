@@ -4,13 +4,24 @@
 
 {% block content %}
 
-<h1>Generated Script</h1>
-<pre>{{ script_content }}</pre>
+<div class="container mt-5">
+    <div class="card" style="position: relative; max-height: 600px; overflow: hidden;">
+        <div class="card-header" style="position: sticky; top: 0; z-index: 1;">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-1">GENERATED SCRIPT</h2>
+                <form action="{% url 'download_script' %}" method="post" class="mb-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="script_content" value="{{ script_content|escape }}">
+                    <button type="submit" class="btn btn-custom-outline">Download Script</button>
+                </form>
+            </div>
+        </div>
+        <div class="card-body" style="max-height: 560px; overflow-y: auto;">
+            <pre>{{ script_content }}</pre>
+        </div>
+    </div>
+</div>
 
-<form action="{% url 'download_script' %}" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="script_content" value="{{ script_content|escape }}">
-    <button type="submit" class="btn btn-primary">Download Script</button>
-</form>
+
 
 {% endblock content %}

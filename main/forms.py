@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import inlineformset_factory
+from django.forms import FileInput, inlineformset_factory
 from .models import Script, LowLevelDesign, Router, PhysicalInterface, Interface2G, Interface3G, Interface4G, ManagementInterface, RadioSite  # Import RadioSite
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Fieldset, ButtonHolder, Submit
@@ -9,11 +9,17 @@ from crispy_forms.layout import Layout, Field, Fieldset, ButtonHolder, Submit
 class LowLevelDesignForm(forms.ModelForm):
     class Meta:
         model = LowLevelDesign
-        fields = ['file']  
+        fields = ['file']
+        widgets = {
+            'file': FileInput(attrs={
+                'class': "custom-file-input",
+            })
+        }
 
     def __init__(self, *args, **kwargs):
         super(LowLevelDesignForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
+        self.helper.form_show_labels = False
         self.helper.layout = Layout(
             Fieldset(
                 'Low-Level Design Details',

@@ -50,7 +50,8 @@ LLD_CO_TRANS_COLUMNS = {
 }
 
 def index(request):
-    return render(request, "main/base.html")
+    form = LowLevelDesignForm()  # Instantiate the form
+    return render(request, "main/base.html", {'form': form})
 
 
 @require_POST
@@ -182,13 +183,13 @@ def upload_lld(request):
             except Exception as e:
                 # Handle any errors that occur
                 error_message = f"An error occurred while processing the file, please check your LLD"
-                return render(request, 'main/uploadLLD.html', {'form': form, 'error': error_message})
+                return render(request, 'main/base.html', {'form': form, 'error': error_message})
 
 
     else:
         form = LowLevelDesignForm()
 
-    return render(request, 'main/uploadLLD.html', {'form': form})
+    return render(request, 'main/base.html', {'form': form})
 
 
 
@@ -226,9 +227,9 @@ def upload_lld_Co_Trans(request):
 
             except Exception as e:
                 error_message = f"An error occurred while processing the file, please check your LLD"
-                return render(request, 'main/uploadLLD.html', {'form': form, 'error': error_message})
+                return render(request, 'main/base.html', {'form': form, 'error': error_message})
 
     else:
         form = LowLevelDesignForm()
 
-    return render(request, 'main/uploadLLD.html', {'form': form})
+    return render(request, 'main/base.html', {'form': form})
